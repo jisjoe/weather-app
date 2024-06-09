@@ -44,6 +44,12 @@ Given the 2-hour time constraint, I aimed to ensure the project is neat, robust,
 - The app runs smoothly on both iOS and Android platforms.
 - The application has unit and widget tests ensuring more than 70% coverage.
 
+### Demo
+
+- Demo: [https://youtu.be/tDLAo3OdUXE](https://youtu.be/tDLAo3OdUXE)
+
+The Demo video includes an Android emulator and an iOS simulator.
+
 
 ### Future Enhancements
 
