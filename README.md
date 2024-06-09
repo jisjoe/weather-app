@@ -62,8 +62,8 @@ Given the 2-hour time constraint, I aimed to ensure the project is neat, robust,
     - Place the `.env` file inside the project folder.
 - Install dependencies and build the project: 
 ```sh
-  $ flutter pub get
-  $ dart run build_runner build --delete-conflicting-outputs 
+ flutter pub get
+ dart run build_runner build --delete-conflicting-outputs 
 ```
 - Run the code after selecting the appropriate Android emulator or iOS simulator.
 
