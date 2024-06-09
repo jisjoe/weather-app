@@ -3,10 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:weather_app/config/flavor_config.dart';
 import 'package:weather_app/config/router_config.dart';
 
-void main() {
+import 'helpers/database_helper.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Set the app flavor based on the configured value (if any).
   FlavorConfig.flavor = appFlavor?.toEnum();
+  await DatabaseHelper.init();
   runApp(const MyApp());
 }
 
