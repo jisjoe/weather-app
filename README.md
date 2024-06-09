@@ -55,20 +55,20 @@ Given the 2-hour time constraint, I aimed to ensure the project is neat, robust,
 
 ### How to run the project
 
-- Clone the project using ```sh git clone https://github.com/jisjoe/weather-app```
+- Clone the project using ``` git clone https://github.com/jisjoe/weather-app```
 - Set the Flavor in the Run configuration to either `dev`, `stg`, or `prod`.
 - Set the Environment:
     - Download the `.env` file attached in the email.
     - Place the `.env` file inside the project folder.
-- Install dependencies and build the project: ```sh
-  $flutter pub get
-  $dart run build_runner build --delete-conflicting-outputs  ```
+- Install dependencies and build the project: ```
+  $ flutter pub get
+  $ dart run build_runner build --delete-conflicting-outputs  ```
 - Run the code after selecting the appropriate Android emulator or iOS simulator.
 
 ### How to run tests
 
-- Inside the project terminal ```sh $flutter test --coverage```
-- To view coverage using lcov, ```sh brew install lcov
+- Inside the project terminal ``` $ flutter test --coverage```
+- To view coverage using lcov, ```$ brew install lcov
   genhtml -o coverage coverage/lcov.info```
 
 ## The Code Structure and elements :abcd:
