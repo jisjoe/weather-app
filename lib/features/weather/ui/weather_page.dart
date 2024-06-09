@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/constants/color_gradients.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/features/connectivity/ui/connectivity_widget.dart';
 import 'package:weather_app/features/location/bloc/location_bloc.dart';
 import 'package:weather_app/features/location/model/location.dart';
 import 'package:weather_app/features/location/ui/location_search_field.dart';
 import 'package:weather_app/features/weather/cubit/weather_cubit.dart';
+import 'package:weather_app/features/weather/ui/error_card.dart';
+import 'package:weather_app/features/weather/ui/not_found_card.dart';
 import 'package:weather_app/features/weather/ui/settings_drawer.dart';
 import 'package:weather_app/features/weather/ui/weather_page_contents.dart';
-import 'package:weather_app/constants/color_gradients.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({super.key});
@@ -109,12 +111,8 @@ class _WeatherPageBodyState extends State<WeatherPageBody> {
                           const SizedBox(height: 16),
                           const ConnectivityWidget(),
                           ...switch (state.weatherStatus) {
-                            WeatherStatus.initial => [
-                                loading(),
-                              ],
-                            WeatherStatus.loading => [
-                                loading(),
-                              ],
+                            WeatherStatus.initial => [loading()],
+                            WeatherStatus.loading => [loading()],
                             WeatherStatus.success => [
                                 WeatherPageContents(
                                   weatherLongString: state.weatherLongString,
@@ -127,12 +125,8 @@ class _WeatherPageBodyState extends State<WeatherPageBody> {
                                       state.currentWeatherDetails,
                                 )
                               ],
-                            WeatherStatus.failure => [
-                                const SizedBox(),
-                              ],
-                            WeatherStatus.notFound => [
-                                const SizedBox(),
-                              ]
+                            WeatherStatus.failure => [const ErrorCard()],
+                            WeatherStatus.notFound => [const NotFoundCard()]
                           }
                         ],
                       ),
