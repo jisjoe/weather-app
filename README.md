@@ -69,9 +69,12 @@ Given the 2-hour time constraint, I aimed to ensure the project is neat, robust,
 
 ### How to run tests
 
-- Inside the project terminal ``` $ flutter test --coverage```
-- To view coverage using lcov, ```$ brew install lcov
-  genhtml -o coverage coverage/lcov.info```
+- Inside the project terminal ```flutter test --coverage```
+- To view coverage using lcov:
+```sh
+  brew install lcov
+  genhtml -o coverage coverage/lcov.info
+```
 
 ## The Code Structure and elements :abcd:
 The application is capable of running in Android and iOS devices and built using Flutter. The code uses BLoC as the state management tool.
