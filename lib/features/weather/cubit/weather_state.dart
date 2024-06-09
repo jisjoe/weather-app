@@ -45,4 +45,43 @@ class WeatherState extends Equatable {
       weather.forecastData.isNotEmpty ? weather.forecastData.first : null;
 
   Temperature? get currentTemperature => currentWeather?.temperature;
+
+  Details? get currentWeatherDetails =>
+      currentWeather?.details.isNotEmpty == true
+          ? currentWeather?.details.first
+          : null;
+
+  List<Forecast> get forecasts => weather.forecastData.map((data) {
+        return Forecast(
+            title: DateTimeHelper.formatDate(data.dateText),
+            humidity: data.temperature?.humidity ?? 0,
+            minTemp: data.temperature?.tempMin ?? 0,
+            maxTemp: data.temperature?.tempMax ?? 0);
+      }).toList();
+
+  bool get needColorOnIcon =>
+      ['13d', '13n', '50d', '50n', '01n'].contains(currentWeatherDetails?.icon);
+
+  String get temperatureUnit =>
+      weatherUnits == WeatherUnits.imperial ? 'F' : 'C';
+
+  String get windSpeedUnit =>
+      weatherUnits == WeatherUnits.imperial ? 'mph' : 'm/s';
+
+  String get weatherLongString =>
+      '${currentTemperature?.tempMax?.toInt() ?? 0}°$temperatureUnit / '
+      '${currentTemperature?.tempMin?.toInt() ?? 0}'
+      '°$temperatureUnit Feels like ${currentTemperature?.feelsLike?.toInt() ?? 0}°'
+      '$temperatureUnit';
+
+  bool get isDark {
+    DateTime now = DateTime.now();
+    DateTime eveningTime = DateTime(now.year, now.month, now.day, 17);
+    DateTime morningTime = DateTime(now.year, now.month, now.day + 1, 6);
+    DateTime fetchedDate = DateTime.parse(
+      currentWeather?.dateText ?? now.toString(),
+    );
+    return fetchedDate.isAfter(eveningTime) &&
+        fetchedDate.isBefore(morningTime);
+  }
 }

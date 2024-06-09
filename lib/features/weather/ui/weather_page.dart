@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/features/connectivity/ui/connectivity_widget.dart';
+import 'package:weather_app/features/location/bloc/location_bloc.dart';
 import 'package:weather_app/features/location/model/location.dart';
 import 'package:weather_app/features/location/ui/location_search_field.dart';
 import 'package:weather_app/features/weather/cubit/weather_cubit.dart';
 import 'package:weather_app/features/weather/ui/settings_drawer.dart';
+import 'package:weather_app/features/weather/ui/weather_page_contents.dart';
+import 'package:weather_app/constants/color_gradients.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({super.key});
@@ -12,8 +16,9 @@ class WeatherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: WeatherPageBody(),
+      drawerScrimColor: Colors.white12,
       drawer: SettingsDrawer(),
+      body: WeatherPageBody(),
     );
   }
 }
@@ -33,62 +38,108 @@ class _WeatherPageBodyState extends State<WeatherPageBody> {
     super.initState();
   }
 
-  void onRefresh() {
-    Location? location = const Location(
-      name: 'Berlin',
-      country: 'DE',
-      state: '',
-      latitude: 52.5170365,
-      longitude: 13.3888599,
-    );
+  Future<void> onRefresh() async {
+    Location? location = context.read<LocationBloc>().state.currentLocation;
 
-    context.read<WeatherCubit>().fetchWeather(
-          latitude: location.latitude!,
-          longitude: location.longitude!,
-        );
+    if (location != null) {
+      context.read<WeatherCubit>().fetchWeather(
+            latitude: location.latitude!,
+            longitude: location.longitude!,
+          );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WeatherCubit, WeatherState>(
       builder: (context, state) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 24,
-              right: 24,
-              top: 24,
+        return Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: state.isDark
+                  ? AppColorGradients.backgroundGradientNight
+                  : AppColorGradients.backgroundGradientDay,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomRight,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 12),
-                Expanded(
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 24,
+                right: 24,
+                top: 24,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
                     children: [
-                      const SizedBox(height: 16),
-                      const LocationSearchField(),
-                      const ConnectivityWidget(),
-                      ...switch (state.weatherStatus) {
-                        WeatherStatus.initial => [
-                            loading(),
-                          ],
-                        WeatherStatus.loading => [
-                            loading(),
-                          ],
-                        WeatherStatus.success => [
-                            Text(state.currentTemperature?.currentTemperature
-                                    ?.toString() ??
-                                '0')
-                          ],
-                        WeatherStatus.failure => [const Text('Error')],
-                        WeatherStatus.notFound => [const Text('Not Found')]
-                      }
+                      Center(
+                        child: InkWell(
+                          onTap: () => Scaffold.of(context).openDrawer(),
+                          borderRadius: BorderRadius.circular(30),
+                          splashColor: AppColors.glacierBlue.withOpacity(0.5),
+                          child: const Icon(
+                            Icons.settings,
+                            color: AppColors.white,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: 4,
+                            right: 16,
+                          ),
+                          child: LocationSearchField(),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 12),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: onRefresh,
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        children: [
+                          const SizedBox(height: 16),
+                          const ConnectivityWidget(),
+                          ...switch (state.weatherStatus) {
+                            WeatherStatus.initial => [
+                                loading(),
+                              ],
+                            WeatherStatus.loading => [
+                                loading(),
+                              ],
+                            WeatherStatus.success => [
+                                WeatherPageContents(
+                                  weatherLongString: state.weatherLongString,
+                                  isColorIcon: state.needColorOnIcon,
+                                  windSpeedUnit: state.windSpeedUnit,
+                                  currentTemperature: state.currentTemperature,
+                                  forecasts: state.forecasts,
+                                  currentWeather: state.currentWeather,
+                                  currentWeatherDetails:
+                                      state.currentWeatherDetails,
+                                )
+                              ],
+                            WeatherStatus.failure => [
+                                const SizedBox(),
+                              ],
+                            WeatherStatus.notFound => [
+                                const SizedBox(),
+                              ]
+                          }
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
