@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/features/weather/model/details/details.dart';
+import 'package:weather_app/features/weather/ui/upcoming_weather.dart';
 import 'package:weather_app/features/weather/ui/weather_metrics.dart';
 import 'package:weather_app/models/forecast/forecast.dart';
 import 'package:weather_app/features/weather/model/temperature/temperature.dart';
@@ -97,6 +98,7 @@ class WeatherPageContents extends StatelessWidget {
           pressure: '${currentTemperature?.pressure ?? 0} mb',
           wind: '${(currentWeather?.wind?.speed)?.toInt() ?? 0} $windSpeedUnit',
         ),
+        UpcomingWeather(forecasts: forecasts),
       ],
     );
   }

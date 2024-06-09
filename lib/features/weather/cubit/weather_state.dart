@@ -84,4 +84,6 @@ class WeatherState extends Equatable {
     return fetchedDate.isAfter(eveningTime) &&
         fetchedDate.isBefore(morningTime);
   }
+
+  bool get isWeatherDataAvailable => currentWeather != null;
 }

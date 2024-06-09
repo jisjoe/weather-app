@@ -110,24 +110,27 @@ class _WeatherPageBodyState extends State<WeatherPageBody> {
                         children: [
                           const SizedBox(height: 16),
                           const ConnectivityWidget(),
-                          ...switch (state.weatherStatus) {
-                            WeatherStatus.initial => [loading()],
-                            WeatherStatus.loading => [loading()],
-                            WeatherStatus.success => [
-                                WeatherPageContents(
-                                  weatherLongString: state.weatherLongString,
-                                  isColorIcon: state.needColorOnIcon,
-                                  windSpeedUnit: state.windSpeedUnit,
-                                  currentTemperature: state.currentTemperature,
-                                  forecasts: state.forecasts,
-                                  currentWeather: state.currentWeather,
-                                  currentWeatherDetails:
-                                      state.currentWeatherDetails,
-                                )
-                              ],
-                            WeatherStatus.failure => [const ErrorCard()],
-                            WeatherStatus.notFound => [const NotFoundCard()]
-                          }
+                          if (state.weatherStatus == WeatherStatus.success ||
+                              state.isWeatherDataAvailable)
+                            WeatherPageContents(
+                              weatherLongString: state.weatherLongString,
+                              isColorIcon: state.needColorOnIcon,
+                              windSpeedUnit: state.windSpeedUnit,
+                              currentTemperature: state.currentTemperature,
+                              forecasts: state.forecasts,
+                              currentWeather: state.currentWeather,
+                              currentWeatherDetails:
+                                  state.currentWeatherDetails,
+                            )
+                          else if (state.weatherStatus == WeatherStatus.initial)
+                            loading()
+                          else if (state.weatherStatus == WeatherStatus.loading)
+                            loading()
+                          else if (state.weatherStatus == WeatherStatus.failure)
+                            const ErrorCard()
+                          else if (state.weatherStatus ==
+                              WeatherStatus.notFound)
+                            const NotFoundCard()
                         ],
                       ),
                     ),
