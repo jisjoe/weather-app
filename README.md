@@ -60,9 +60,11 @@ Given the 2-hour time constraint, I aimed to ensure the project is neat, robust,
 - Set the Environment:
     - Download the `.env` file attached in the email.
     - Place the `.env` file inside the project folder.
-- Install dependencies and build the project: ```
+- Install dependencies and build the project: 
+```sh
   $ flutter pub get
-  $ dart run build_runner build --delete-conflicting-outputs  ```
+  $ dart run build_runner build --delete-conflicting-outputs 
+```
 - Run the code after selecting the appropriate Android emulator or iOS simulator.
 
 ### How to run tests
