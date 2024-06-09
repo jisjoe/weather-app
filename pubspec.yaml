@@ -48,6 +48,7 @@ dependencies:
   flutter_bloc: ^8.1.5
   bloc_concurrency: ^0.2.5
   connectivity_plus: ^6.0.3
+  bloc_test: ^9.1.7
 
 dev_dependencies:
   flutter_test:
