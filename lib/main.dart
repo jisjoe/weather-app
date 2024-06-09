@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:weather_app/config/flavor_config.dart';
 import 'package:weather_app/config/router_config.dart';
+import 'package:weather_app/scope/global_app_scope.dart';
 
 import 'helpers/database_helper.dart';
 
@@ -18,13 +19,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Weather App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return GlobalAppScope(
+      child: MaterialApp.router(
+        title: 'Weather App',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        routerConfig: appRouterConfig,
       ),
-      routerConfig: appRouterConfig,
     );
   }
 }
