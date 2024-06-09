@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/features/connectivity/ui/connectivity_widget.dart';
 import 'package:weather_app/features/location/model/location.dart';
+import 'package:weather_app/features/location/ui/location_search_field.dart';
 import 'package:weather_app/features/weather/cubit/weather_cubit.dart';
 import 'package:weather_app/features/weather/ui/settings_drawer.dart';
 
@@ -67,6 +68,7 @@ class _WeatherPageBodyState extends State<WeatherPageBody> {
                     physics: const BouncingScrollPhysics(),
                     children: [
                       const SizedBox(height: 16),
+                      const LocationSearchField(),
                       const ConnectivityWidget(),
                       ...switch (state.weatherStatus) {
                         WeatherStatus.initial => [

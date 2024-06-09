@@ -49,6 +49,7 @@ dependencies:
   bloc_concurrency: ^0.2.5
   connectivity_plus: ^6.0.3
   bloc_test: ^9.1.7
+  drop_down_search_field: ^1.0.4
 
 dev_dependencies:
   flutter_test:
